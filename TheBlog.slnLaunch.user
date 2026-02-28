@@ -9,6 +9,10 @@
       {
         "Path": "WebApi.PostsService\\WebApi.PostsService.csproj",
         "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "Gateway\\Gateway.csproj",
+        "Action": "StartWithoutDebugging"
       }
     ]
   }
