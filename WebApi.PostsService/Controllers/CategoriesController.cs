@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 using WebApi.PostsService.Data;
+using WebApi.PostsService.Models;
 
 namespace WebApi.PostsService.Controllers
 {
@@ -17,24 +20,50 @@ namespace WebApi.PostsService.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> GetAll() {
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
 
             var categories = await _db.Categories.ToListAsync();
             return Ok(categories);
 
         }
 
-        // instructions: getByID httget[id] int id
-        // instructions: var category find if null notFound else ok(categ)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
 
-        // instructions: post authorize Create from body string name
-        // instructions: var category = new + add + save
+            var category = await _db.Categories.FindAsync(id);
+            return category is null ? NotFound() : Ok(category);
 
-        // instructions: delete authorizo int id
-        // instructions: var category FindASync
-        // instructions: if category == null return notFound()
-        // instructions:  delete save nocon
+        }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Create([FromBody] string name)
+        {
 
+            var category = new Category
+            {
+                Name = name
+            };
+            _db.Categories.Add(category);
+            await _db.SaveChangesAsync();
+            return Ok(category);
+
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            var category = await _db.Categories.FindAsync(id);
+            if (category == null) return NotFound();
+            _db.Categories.Remove(category);
+            await _db.SaveChangesAsync();
+            return NoContent();
+
+        }
     }
 }
