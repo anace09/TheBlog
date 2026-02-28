@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "WebApi.AuthService\\WebApi.AuthService.csproj",
+        "Action": "StartWithoutDebugging"
+      },
+      {
+        "Path": "WebApi.PostsService\\WebApi.PostsService.csproj",
+        "Action": "StartWithoutDebugging"
+      }
+    ]
+  }
+]

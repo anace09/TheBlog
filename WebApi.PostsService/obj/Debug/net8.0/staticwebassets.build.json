@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "hWUES8vzBG3Td1ZLGl5ZEp92uvaGLoeKDFAIl9m2BiY=",
+  "Source": "WebApi.PostsService",
+  "BasePath": "_content/WebApi.PostsService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

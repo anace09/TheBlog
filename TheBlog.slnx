@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Gateway/Gateway.csproj" Id="cb644fc5-a9bb-4c6c-a5d4-3704b03f0b2f" />
+  <Project Path="WebApi.AuthService/WebApi.AuthService.csproj" Id="75a68774-fda0-439f-ace2-7f4c75e9071e" />
+  <Project Path="WebApi.PostsService/WebApi.PostsService.csproj" Id="9977332c-3916-4d04-9fbf-01125b4d9030" />
+  <Project Path="WebApp/WebApp.csproj" />
+</Solution>
