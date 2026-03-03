@@ -223,3 +223,11 @@ C:\Users\User\Desktop\TheBlog\WebApi.PostsService\obj\Debug\net8.0\refint\WebApi
 C:\Users\User\Desktop\TheBlog\WebApi.PostsService\obj\Debug\net8.0\WebApi.PostsService.pdb
 C:\Users\User\Desktop\TheBlog\WebApi.PostsService\obj\Debug\net8.0\WebApi.PostsService.genruntimeconfig.cache
 C:\Users\User\Desktop\TheBlog\WebApi.PostsService\obj\Debug\net8.0\ref\WebApi.PostsService.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\Azure.Core.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\Azure.Storage.Blobs.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\Azure.Storage.Common.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\System.ClientModel.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\System.IO.Hashing.dll
+C:\Users\User\Desktop\TheBlog\WebApi.PostsService\bin\Debug\net8.0\System.Memory.Data.dll

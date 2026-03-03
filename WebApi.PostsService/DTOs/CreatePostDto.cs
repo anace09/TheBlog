@@ -1,12 +1,13 @@
 ﻿namespace WebApi.PostsService.DTOs
 {
-    public class CreatePostDto
-    {
+    public record CreatePostDto(
 
-        public string Title { get; set; } = null!;
-        public string Content { get; set; } = null!;
-        public List<int> CategoryIds { get; set; } = [];
-        public List<int> TagIds { get; set; } = [];
+        string Title,
+        string Content,
+        string? CoverImageUrl,
+        List<string> ImageUrls,
+        List<int> CategoryIds,
+        List<int> TagIds
 
-    }
+    );
 }

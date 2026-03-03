@@ -14,6 +14,11 @@ namespace WebApi.PostsService.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set;}
 
+        // --- images loading ---
+
+        public string? CoverImageUrl { get; set; }
+        public ICollection<PostImage> Images { get; set; } = [];
+
         // --- comments ---
 
         public ICollection<Comment> Comments { get; set; } = [];

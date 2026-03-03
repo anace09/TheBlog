@@ -7,7 +7,9 @@
     <UserSecretsId>09f449e0-7fe3-4460-8664-6614afdff5cf</UserSecretsId>
   </PropertyGroup>
 
+
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.27.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">

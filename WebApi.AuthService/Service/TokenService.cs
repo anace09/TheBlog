@@ -53,28 +53,41 @@ namespace WebApi.AuthService.Service
 
         public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
         {
-            var jwt = _config.GetSection("Jwt");
-            var keyStr = jwt["Key"] ?? throw new InvalidOperationException("JWT Key is not configured");
 
-            var tokenValidationParameters = new TokenValidationParameters
+            try
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidIssuer = jwt["Issuer"],
-                ValidAudience = jwt["Audience"],
-                ValidateLifetime = false,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyStr))
-            };
 
-            var handler = new JwtSecurityTokenHandler();
-            var principal = handler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
+                var jwt = _config.GetSection("Jwt");
+                var keyStr = jwt["Key"] ?? throw new InvalidOperationException("JWT Key is not configured");
 
-            if (validatedToken is not JwtSecurityToken jwtToken ||
-                !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = jwt["Issuer"],
+                    ValidAudience = jwt["Audience"],
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyStr))
+                };
+
+                var handler = new JwtSecurityTokenHandler();
+                var principal = handler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
+
+                if (validatedToken is not JwtSecurityToken jwtToken ||
+                    !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
+                    return null;
+
+                return principal;
+
+            }
+            catch 
+            {
+
                 return null;
+            
+            }
 
-            return principal;
         }
     }
 }

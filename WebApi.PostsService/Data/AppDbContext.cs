@@ -14,6 +14,7 @@ namespace WebApi.PostsService.Data
         public DbSet<Tag> Tags => Set<Tag>();
         public DbSet<PostCategory> PostCategories => Set<PostCategory>();
         public DbSet<PostTag> PostTags => Set<PostTag>();
+        public DbSet<PostImage> PostImages => Set<PostImage>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

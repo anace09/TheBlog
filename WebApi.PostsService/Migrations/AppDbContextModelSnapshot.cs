@@ -84,6 +84,9 @@ namespace WebApi.PostsService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("CoverImageUrl")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -112,6 +115,28 @@ namespace WebApi.PostsService.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("PostCategories");
+                });
+
+            modelBuilder.Entity("WebApi.PostsService.Models.PostImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostImages");
                 });
 
             modelBuilder.Entity("WebApi.PostsService.Models.PostTag", b =>
@@ -195,6 +220,17 @@ namespace WebApi.PostsService.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("WebApi.PostsService.Models.PostImage", b =>
+                {
+                    b.HasOne("WebApi.PostsService.Models.Post", "Post")
+                        .WithMany("Images")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("WebApi.PostsService.Models.PostTag", b =>
                 {
                     b.HasOne("WebApi.PostsService.Models.Post", "Post")
@@ -233,6 +269,8 @@ namespace WebApi.PostsService.Migrations
             modelBuilder.Entity("WebApi.PostsService.Models.Post", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Images");
 
                     b.Navigation("PostCategories");
 

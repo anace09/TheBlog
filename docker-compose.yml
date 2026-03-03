@@ -1,0 +1,86 @@
+services:
+  auth-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: AuthDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d AuthDb"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  posts-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: PostsDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d PostsDb"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  auth-service:
+    build:
+      context: ./WebApi.AuthService
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=auth-db;Port=5432;Database=AuthDb;Username=postgres;Password=123456
+      - Jwt__Key=${JWT_KEY}
+      - Jwt__Issuer=${JWT_ISSUER}
+      - Jwt__Audience=${JWT_AUDIENCE}
+      - Jwt__ExpireMinutes=60
+    depends_on:
+      auth-db:
+        condition: service_healthy
+    networks:
+      - internal
+
+  posts-service:
+    build:
+      context: ./WebApi.PostsService
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=posts-db;Port=5432;Database=PostsDb;Username=postgres;Password=123456
+      - Jwt__Key=${JWT_KEY}
+      - Jwt__Issuer=${JWT_ISSUER}
+      - Jwt__Audience=${JWT_AUDIENCE}
+      - AzureBlob__ConnectionString=${AZURE_BLOB_CONNECTION_STRING}
+      - AzureBlob__ContainerName=images
+    depends_on:
+      posts-db:
+        condition: service_healthy
+    networks:
+      - internal
+
+  gateway:
+    build:
+      context: ./Gateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - Jwt__Key=${JWT_KEY}
+      - Jwt__Issuer=${JWT_ISSUER}
+      - Jwt__Audience=${JWT_AUDIENCE}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - posts-service
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge

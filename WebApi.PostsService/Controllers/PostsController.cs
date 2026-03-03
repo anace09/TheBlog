@@ -5,6 +5,7 @@ using System.Security.Claims;
 using WebApi.PostsService.Data;
 using WebApi.PostsService.DTOs;
 using WebApi.PostsService.Models;
+using WebApi.PostsService.Services;
 
 namespace WebApi.PostsService.Controllers
 {
@@ -55,6 +56,8 @@ namespace WebApi.PostsService.Controllers
                 Title = dto.Title,
                 Content = dto.Content,
                 AuthorId = UserId,
+                CoverImageUrl = dto.CoverImageUrl,
+                Images = dto.ImageUrls.Select(url => new PostImage { Url = url }).ToList(),
                 PostCategories = dto.CategoryIds.Select(id => new PostCategory { CategoryId = id }).ToList(),
                 PostTags = dto.TagIds.Select(id => new PostTag { TagId = id }).ToList()
             };
@@ -62,6 +65,28 @@ namespace WebApi.PostsService.Controllers
             _db.Posts.Add(post);
             await _db.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = post.Id }, post);
+
+        }
+
+        [HttpPost("upload-image")]
+        public async Task<IActionResult> UploadImage(
+            IFormFile file,
+            [FromServices] IBlobStorageService blobService)
+        {
+
+            if (file == null || file.Length == 0)
+                return BadRequest("Файл пустой");
+             
+            var allowed = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            var ext = Path.GetExtension(file.FileName).ToLower();
+            if (!allowed.Contains(ext))
+                return BadRequest("Только jpg, png, webp");
+
+            if (file.Length > 5 * 1024 * 1024)
+                return BadRequest("Максимум 5MB");
+
+            var url = await blobService.UploadAsync(file);
+            return Ok(new { url });
 
         }
 
