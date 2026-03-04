@@ -2,10 +2,10 @@
 
 namespace WebApi.PostsService.DTOs
 {
-    public class UpsertReactionDto
-    {
+    public record UpsertReactionDto
+    (
 
-        public ReactionType Type { get; set; }
+        ReactionType Type
 
-    }
+    );
 }
