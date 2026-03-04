@@ -64,7 +64,7 @@ namespace WebApi.PostsService.Controllers
 
             var comment = await _db.Comments.FindAsync(commentId);
             if(comment == null) return NotFound();
-            if (UserId == comment.AuthorId) return Forbid();
+            if (UserId != comment.AuthorId) return Forbid();
 
             _db.Comments.Remove(comment);
             await _db.SaveChangesAsync();
