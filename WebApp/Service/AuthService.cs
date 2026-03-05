@@ -20,7 +20,7 @@ namespace WebApp.Service
         public async Task<bool> LoginAsync(string username, string password) 
         {
 
-            var json = JsonSerializer.Serialize(new { username, password });
+            var json = JsonSerializer.Serialize(new { Username = username, Password = password });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync("/api/auth/login", content);
             if (!response.IsSuccessStatusCode) return false;
@@ -42,7 +42,7 @@ namespace WebApp.Service
         public async Task<bool> RegisterAsync(string username, string email, string password, string firstName, string lastName) 
         {
 
-            var json = JsonSerializer.Serialize(new { username, email, password, firstName, lastName });
+            var json = JsonSerializer.Serialize(new { Username = username, Email = email, Password = password, FirstName = firstName, LastName = lastName });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await Client.PostAsync("/api/auth/register", content);
 

@@ -1,0 +1,19 @@
+﻿@model List<System.Text.Json.JsonElement>
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<h1>Posts</h1>
+
+@if (!Model.Any())
+{
+    <p>Постов пока нет.</p>
+}
+
+@foreach (var post in Model)
+{
+    <div>
+        <h2>@post.GetProperty("title").GetString()</h2>
+        <p>@post.GetProperty("content").GetString()</p>
+    </div>
+}

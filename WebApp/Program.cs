@@ -1,3 +1,5 @@
+using WebApp.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
@@ -15,8 +17,9 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<AuthService>();
+IServiceCollection serviceCollection = builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<PostsService>();
 
 var app = builder.Build();

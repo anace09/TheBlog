@@ -1,0 +1,376 @@
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login – THE BLOG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Nunito+Sans:wght@400;600&family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        /* ── PAGE SPLIT ── */
+        .page {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* white left part */
+        .left {
+            flex: 1;
+            background: #ffffff;
+            position: relative;
+        }
+
+        /* green right part: fixed 500px */
+        .right {
+            width: 500px;
+            flex-shrink: 0;
+            background: #0E9F6E;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* circles inside green */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.65);
+            background: transparent;
+        }
+
+        /* ── BRAND ── */
+        .brand {
+            position: fixed;
+            top: 33px;
+            left: 48px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            font-size: 30px;
+            color: #0E9F6E;
+            letter-spacing: 0.05em;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* ── CARD: sits ON the split line, centered vertically ── */
+        /* left edge of green = calc(100vw - 500px)               */
+        /* card is 653px wide, centered on that split line         */
+        /* so card left = (100vw - 500px) - 653/2                  */
+        .card {
+            position: fixed;
+            top: 50%;
+            left: calc(100vw - 500px - 326px); /* split - half card width */
+            transform: translateY(-50%);
+            width: 653px;
+            height: 639px;
+            background: #E8E8E8;
+            border-radius: 20px;
+            z-index: 10;
+            box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+            /* no form inside the card */
+        }
+
+        /* ── FORM: in white area, between left edge and card ── */
+        /* card left = calc(100vw - 500px - 326px)               */
+        /* form is centered in the space [0 .. card_left]        */
+        .form-container {
+            position: fixed;
+            top: 50%;
+            /* center of white area before card */
+            left: calc((100vw - 500px - 326px) / 2);
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .form-title {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            font-size: 35px;
+            color: #000000;
+            margin-bottom: 118px;
+            line-height: 1;
+        }
+
+        .field-group { width: 100%; }
+        .field-group + .field-group { margin-top: 43px; }
+
+        .field-label {
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            color: #263A43;
+            margin-bottom: 18px;
+            display: block;
+        }
+
+        .field-wrap {
+            position: relative;
+            width: 400px;
+            height: 70px;
+        }
+
+        .field-input {
+            width: 100%;
+            height: 100%;
+            border: 0.6px solid #B1B1B1;
+            border-radius: 6px;
+            padding: 0 50px 0 16px;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 15px;
+            color: #263A43;
+            background: #ffffff;
+            outline: none;
+        }
+
+        .field-input::placeholder {
+            color: #B1B1B1;
+            font-weight: 400;
+        }
+
+        .focus-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #0E9F6E;
+            border-radius: 0 0 6px 6px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .field-input:focus + .focus-bar { opacity: 1; }
+
+        .eye-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: #B1B1B1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.15s;
+        }
+        .eye-btn:hover { color: #263A43; }
+
+        .remember {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+        }
+
+        .remember input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border: 1.5px solid #B1B1B1;
+            border-radius: 2px;
+            background: #B1B1B1;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            flex-shrink: 0;
+        }
+
+        .remember input[type="checkbox"]:checked {
+            background: #0E9F6E;
+            border-color: #0E9F6E;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l3 3 5-6' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 10px 8px;
+        }
+
+        .remember-label {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 14px;
+            color: #263A43;
+            font-weight: 400;
+            user-select: none;
+        }
+
+        .btn-login {
+            margin-top: 50px;
+            width: 400px;
+            height: 70px;
+            background: #0E9F6E;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Nunito Sans', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-login:hover { background: #0c8d60; transform: translateY(-1px); }
+        .btn-login:active { transform: translateY(0); }
+
+        .form-links {
+            margin-top: 16px;
+            width: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-link {
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #0E9F6E;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+
+        .form-link:hover { opacity: 0.7; }
+
+        /* responsive */
+        @@media (max-width: 1100px) {
+            .right { width: 300px; }
+            .card {
+                left: calc(100vw - 300px - 326px);
+                width: 560px;
+                height: auto;
+            }
+            .form-container {
+                left: calc((100vw - 300px - 326px) / 2);
+                width: 340px;
+            }
+            .field-wrap, .btn-login { width: 340px; }
+            .form-title { margin-bottom: 60px; }
+        }
+
+        @@media (max-width: 768px) {
+            .right { display: none; }
+            .card { display: none; }
+            .form-container {
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90vw;
+                max-width: 400px;
+            }
+            .field-wrap, .btn-login { width: 100%; }
+            .form-title { margin-bottom: 40px; font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- WHITE LEFT -->
+    <div class="left"></div>
+
+    <!-- GREEN RIGHT + circles -->
+    <div class="right">
+        <div class="circle" style="width:52px;height:52px;top:8%;left:18%"></div>
+        <div class="circle" style="width:28px;height:28px;top:15%;left:62%"></div>
+        <div class="circle" style="width:44px;height:44px;top:28%;left:40%"></div>
+        <div class="circle" style="width:20px;height:20px;top:22%;left:78%"></div>
+        <div class="circle" style="width:60px;height:60px;top:42%;left:70%"></div>
+        <div class="circle" style="width:34px;height:34px;top:55%;left:22%"></div>
+        <div class="circle" style="width:24px;height:24px;top:60%;left:55%"></div>
+        <div class="circle" style="width:48px;height:48px;top:72%;left:35%"></div>
+        <div class="circle" style="width:22px;height:22px;top:80%;left:72%"></div>
+        <div class="circle" style="width:38px;height:38px;top:88%;left:14%"></div>
+        <div class="circle" style="width:56px;height:56px;top:5%;left:50%"></div>
+        <div class="circle" style="width:30px;height:30px;top:35%;left:10%"></div>
+        <div class="circle" style="width:20px;height:20px;top:50%;left:85%"></div>
+        <div class="circle" style="width:42px;height:42px;top:65%;left:80%"></div>
+        <div class="circle" style="width:26px;height:26px;top:92%;left:50%"></div>
+    </div>
+
+    <!-- BRAND -->
+    <div class="brand">THE BLOG</div>
+
+    <!-- GREY CARD on the split boundary -->
+    <div class="card"></div>
+
+    <!-- FORM in white area, left of card -->
+    <div class="form-container">
+        <h1 class="form-title">Login</h1>
+
+        <form asp-controller="Account" asp-action="Login" method="post" style="width:100%">
+
+            <div class="field-group">
+                <label class="field-label" for="username">Username</label>
+                <div class="field-wrap">
+                    <input class="field-input" type="text" id="username" name="username" placeholder="Enter Login" autocomplete="username" />
+                    <div class="focus-bar"></div>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label class="field-label" for="password">Enter your Password</label>
+                <div class="field-wrap">
+                    <input class="field-input" type="password" id="password" name="password" placeholder="Type your password here" autocomplete="current-password" />
+                    <div class="focus-bar"></div>
+                    <button type="button" class="eye-btn" onclick="togglePassword()" aria-label="Show password">
+                        <svg id="eye-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <label class="remember">
+                <input type="checkbox" name="rememberMe" />
+                <span class="remember-label">Remember Me?</span>
+            </label>
+
+            <button type="submit" class="btn-login">Login</button>
+
+            <div class="form-links">
+                <a href="#" class="form-link">Forgot password?</a>
+                <a asp-controller="Account" asp-action="Register" class="form-link">Register</a>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('eye-icon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+        } else {
+            input.type = 'password';
+            icon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+        }
+    }
+</script>
+</body>
+</html>

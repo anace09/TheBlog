@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@{
+
+    var firstName = Context.Session.GetString("firstName");
+    var lastName = Context.Session.GetString("lastName");
+    var displayName = (!string.IsNullOrEmpty(firstName) || !string.IsNullOrEmpty(lastName))
+        ? $"{firstName} {lastName}".Trim()
+        : "Гость";
+
+}
+
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
@@ -14,7 +24,7 @@
     <!-- HEADER -->
     <header>
         <div class="header-inner">
-            <a href="/" class="header-logo">Имя Фамилия</a>
+            <a href="/" class="header-logo">@displayName</a>
 
             <nav class="header-nav">
                 <a class="nav-link" asp-controller="Posts" asp-action="Index">Blog</a>
