@@ -37,7 +37,7 @@ namespace WebApi.AuthService.Controllers
             user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
             await _userManager.UpdateAsync(user);
 
-            return Ok(new { accessToken, refreshToken }); 
+            return Ok(new { accessToken, refreshToken, firstName = user.FirstName, lastName = user.LastName }); 
 
         }
 
@@ -56,6 +56,8 @@ namespace WebApi.AuthService.Controllers
             {
                 UserName = request.Username,
                 Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

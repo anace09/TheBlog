@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\WebApp.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\User\\Desktop\\TheBlog\\WebApp\\wwwroot\\css\\shared\\layout.css",
+      "PackagePath": "staticwebassets\\css\\shared\\layout.css"
+    },
+    {
       "Id": "C:\\Users\\User\\Desktop\\TheBlog\\WebApp\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
