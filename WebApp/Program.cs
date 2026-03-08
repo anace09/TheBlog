@@ -16,11 +16,12 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 
-IServiceCollection serviceCollection = builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<PostsService>();
+builder.Services.AddScoped<TagsService>();
+builder.Services.AddScoped<CategoriesService>();
 
 var app = builder.Build();
 

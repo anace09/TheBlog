@@ -52,6 +52,28 @@ namespace WebApp.Service
 
         public void Logout() => Session.Clear();
 
+        public async Task<bool> ForgotPasswordAsync(string email) 
+        {
+
+            var baseUrl = _ctx.HttpContext!.Request.Scheme + "://" + _ctx.HttpContext.Request.Host;
+            var json = JsonSerializer.Serialize(new { Email = email, BaseUrl = baseUrl });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync("/api/auth/forgot-password", content);
+
+            return response.IsSuccessStatusCode;
+
+        }
+
+        public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword) {
+
+            var json = JsonSerializer.Serialize(new { Email = email, Token = token, NewPassword = newPassword });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await Client.PostAsync("api/auth/reset-password", content);
+
+            return response.IsSuccessStatusCode;
+
+        }
+
         private JsonElement ParseJwt(string token)
         {
             try

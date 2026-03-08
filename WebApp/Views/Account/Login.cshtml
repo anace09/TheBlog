@@ -1,5 +1,4 @@
 @{
-    ViewData["Title"] = "Login";
     Layout = null;
 }
 <!DOCTYPE html>
@@ -7,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login – THE BLOG</title>
+    <title>Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Nunito+Sans:wght@400;600&family=Roboto:wght@700&display=swap" rel="stylesheet">
@@ -350,7 +349,7 @@
             <button type="submit" class="btn-login">Login</button>
 
             <div class="form-links">
-                <a href="#" class="form-link">Forgot password?</a>
+                    <a asp-controller="Account" asp-action="ForgotPassword" class="form-link">Forgot password?</a>
                 <a asp-controller="Account" asp-action="Register" class="form-link">Register</a>
             </div>
 
