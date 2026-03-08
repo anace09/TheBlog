@@ -91,6 +91,33 @@ header {
         transform: translateY(-1px);
     }
 
+.fab-create {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: #0a0a0a;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    transition: background 0.2s, transform 0.15s;
+    z-index: 1000;
+    line-height: 1;
+    padding-bottom: 2px;
+}
+
+    .fab-create:hover {
+        background: #2a2a2a;
+    }
+
 main {
     flex: 1;
     padding: 0 var(--side-padding);

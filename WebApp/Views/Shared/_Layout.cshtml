@@ -6,6 +6,14 @@
         ? $"{firstName} {lastName}".Trim()
         : "Гость";
 
+    var role = Context.Session.GetString("role");
+    var canCreate = role == "Admin" || role == "Moderator";
+
+}
+
+@if (canCreate)
+{
+    <a href="/posts/create" class="fab-create">+</a>
 }
 
 <!DOCTYPE html>
